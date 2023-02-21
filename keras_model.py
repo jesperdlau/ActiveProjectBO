@@ -32,34 +32,30 @@ class CNN():
     
     def train_opt(self,X_train,y_train,X_test,y_test):
         earlystopping = callbacks.EarlyStopping(monitor ="val_loss", 
-                                        mode ="min", patience = 5, 
+                                        mode ="min", patience = 3, 
                                         restore_best_weights = True)
         self.model.fit(X_train, y_train, batch_size = 128, 
-                    epochs = 25, validation_data =(X_test, y_test), 
+                    epochs = 20, validation_data =(X_test, y_test), 
                     callbacks =[earlystopping])
 
     def evaluate(self,X_test,y_test):
         loss,acc = self.model.evaluate(X_test,y_test)
         return loss, acc
 
-X = np.load("image_data.npy")
-y = np.load("labels.npy")
 
-# print(X[0].shape)
-# train_test_split with shuffle
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
+if __name__ == "__main__":
+    X = np.load("image_data.npy")
+    y = np.load("labels.npy")
 
-# plt.imshow(X_train[0])
-# plt.show()
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
 
-model = CNN()
-# model.train(X_train,y_train,X_test,y_test,10)
-model.train_opt(X_train,y_train,X_test,y_test)
-model.model.summary()
+    model = CNN(0.1,0.1)
+    model.train_opt(X_train,y_train,X_test,y_test)
+    model.model.summary()
 
-loss_train, acc_train = model.evaluate(X_train,y_train)
-loss_test, acc_test = model.evaluate(X_test,y_test)
+    loss_train, acc_train = model.evaluate(X_train,y_train)
+    loss_test, acc_test = model.evaluate(X_test,y_test)
 
-print("Train accuracy = ", acc_train)
-print("Test accuracy = ",acc_test)
+    print("Train accuracy = ", acc_train)
+    print("Test accuracy = ",acc_test)
 
