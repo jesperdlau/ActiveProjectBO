@@ -41,6 +41,9 @@ class CNN():
     def evaluate(self,X_test,y_test):
         loss,acc = self.model.evaluate(X_test,y_test)
         return loss, acc
+    
+    def summary(self):
+        self.model.summary()
 
 
 if __name__ == "__main__":
@@ -51,7 +54,7 @@ if __name__ == "__main__":
 
     model = CNN(0.1,0.1)
     model.train_opt(X_train,y_train,X_test,y_test)
-    model.model.summary()
+    model.summary()
 
     loss_train, acc_train = model.evaluate(X_train,y_train)
     loss_test, acc_test = model.evaluate(X_test,y_test)
