@@ -10,7 +10,7 @@ from tqdm import tqdm
 X = np.load("image_data.npy")
 y = np.load("labels.npy")
 seed = 42
-n_iter = 5
+n_iter = 20
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=seed)
 
