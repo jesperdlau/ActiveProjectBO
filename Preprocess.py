@@ -35,7 +35,8 @@ def process(img):
 
     # RGB to Gray
     img_gray = color.rgb2gray(img_rgb)
-
+    #img_gray = np.reshape(img_gray, (3,3,1))
+    img_gray= np.expand_dims(img_gray, axis=2)
     return img_rgb, img_gray
 
 
