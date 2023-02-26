@@ -7,22 +7,26 @@ from sklearn.model_selection import train_test_split
 from bayes_opt import BayesianOptimization
 from tqdm import tqdm 
 # Load data
-X = np.load("image_data.npy")
+# X = np.load("image_data.npy")
+X = np.load("image_data_gray.npy")
 y = np.load("labels.npy")
+SHAPE = np.shape(X[0])
 seed = 42
-n_iter = 10
+n_iter = 15
+BATCH_SIZE = 100
+EPOCHS = 20
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=seed)
 
 def blackBoxFunction(dropRate1,dropRate2):
-    model = CNN(dropRate1,dropRate2)
-    model.train_opt(X_train,y_train,X_test,y_test,verbose=0)
+    model = CNN(dropRate1,dropRate2,input_shape=SHAPE)
+    model.train_opt(X_train, y_train, X_test, y_test, batch_size=BATCH_SIZE, epochs = EPOCHS, verbose=0)
     loss, acc = model.evaluate(X_test,y_test)   
     return acc
 
 # with bayes_opt simple approach
 bounds2D = {"dropRate1":(0.0,0.5),"dropRate2":(0.0,0.5)}
-optimizer = BayesianOptimization(f=blackBoxFunction,pbounds=bounds2D,verbose=2,random_state=seed)
+optimizer = BayesianOptimization(f=blackBoxFunction, pbounds=bounds2D, verbose=2, random_state=seed)
 print("###########Starting optimization##############")
 optimizer.maximize(init_points = 5,n_iter = n_iter)
 
