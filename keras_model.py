@@ -8,27 +8,23 @@ from keras import layers
 from keras import callbacks
 
 class CNN():
-    def __init__(self,dropRate1=0.1,dropRate2=0.1,n_extra_layers=0,
+    def __init__(self,dropRate1=0.1,dropRate2=0.1,
     loss_func="sparse_categorical_crossentropy",
     act="relu",opt="adam"):
         self.model = Sequential()
         self.model.add(layers.Conv2D(80,(3,3),activation=act,input_shape=(80,80,3)))
         self.model.add(layers.MaxPooling2D((2,2), padding='same'))
-
-        for i in range(n_extra_layers):
-            self.model.add(layers.Conv2D(160,(3,3),activation=act))
-            self.model.add(layers.MaxPooling2D((2,2), padding='same'))
-
-        # self.model.add(layers.MaxPooling2D((2,2), padding='same'))
         self.model.add(layers.Dropout(dropRate1))
+        self.model.add(layers.Conv2D(40,(3,3),activation=act))
+        self.model.add(layers.MaxPooling2D((2,2), padding='same'))
         self.model.add(layers.Flatten())
-        self.model.add(layers.Dense(160,activation=act))
+        self.model.add(layers.Dense(40,activation=act))
         self.model.add(layers.Dropout(dropRate2))
         self.model.add(layers.Dense(2,activation="softmax"))
         self.model.compile(optimizer=opt,loss=loss_func,metrics=["accuracy"])
 
-    def train(self,X_train,y_train,X_test,y_test,epochs,verbose=2):
-        self.model.fit(X_train,y_train,epochs,validation_data=(X_test,y_test),verbose=verbose)
+    def train(self,X_train,y_train,X_test,y_test,epochs):
+        self.model.fit(X_train,y_train,epochs=epochs,validation_data=(X_test,y_test))
     
     def train_opt(self,X_train,y_train,X_test,y_test,verbose=2):
         earlystopping = callbacks.EarlyStopping(monitor ="val_loss", 
@@ -54,6 +50,7 @@ if __name__ == "__main__":
 
     model = CNN(0.1,0.1)
     model.train_opt(X_train,y_train,X_test,y_test)
+    # model.train(X_train,y_train,X_test,y_test,10)
     model.summary()
 
     loss_train, acc_train = model.evaluate(X_train,y_train)
