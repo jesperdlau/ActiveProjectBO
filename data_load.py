@@ -4,6 +4,10 @@ from skimage.io import imread
 import matplotlib.pyplot as plt
 import numpy as np 
 
+# Linux
+# folder_path = os.getcwd() + "ActiveProjectBO/data/shipsnet/shipsnet"
+
+# Windows
 folder_path = os.getcwd() + "\data\shipsnet\shipsnet"
 
 img_list = []

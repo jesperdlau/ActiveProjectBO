@@ -12,7 +12,7 @@ class CNN():
     loss_func="sparse_categorical_crossentropy",
     act="relu",opt="adam"):
         self.model = Sequential()
-        self.model.add(layers.Conv2D(80,(3,3),activation=act,input_shape=(80,80,3)))
+        self.model.add(layers.Conv2D(80,(3,3),activation=act,input_shape=input_shape))
         self.model.add(layers.MaxPooling2D((2,2), padding='same'))
         self.model.add(layers.Dropout(dropRate1))
         self.model.add(layers.Conv2D(40,(3,3),activation=act))
@@ -23,15 +23,15 @@ class CNN():
         self.model.add(layers.Dense(2,activation="softmax"))
         self.model.compile(optimizer=opt,loss=loss_func,metrics=["accuracy"])
 
-    def train(self,X_train,y_train,X_test,y_test,epochs):
-        self.model.fit(X_train,y_train,epochs=epochs,validation_data=(X_test,y_test))
+    def train(self,X_train,y_train,X_test,y_test,batch_size=128,epochs=10,verbose=2):
+        self.model.fit(X_train,y_train,batch_size=batch_size,epochs=epochs,validation_data=(X_test,y_test),verbose=verbose)
     
-    def train_opt(self,X_train,y_train,X_test,y_test,verbose=2):
+    def train_opt(self,X_train,y_train,X_test,y_test,batch_size=8,epochs=20,verbose=2):
         earlystopping = callbacks.EarlyStopping(monitor ="val_loss", 
                                         mode ="min", patience = 3, 
                                         restore_best_weights = True)
-        self.model.fit(X_train, y_train, batch_size = 128, 
-                    epochs = 20, validation_data =(X_test, y_test), 
+        self.model.fit(X_train, y_train, batch_size = batch_size, 
+                    epochs = epochs, validation_data =(X_test, y_test), 
                     callbacks =[earlystopping],verbose=verbose)
 
     def evaluate(self,X_test,y_test):
