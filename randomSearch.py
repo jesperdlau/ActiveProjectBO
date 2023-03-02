@@ -18,6 +18,11 @@ BATCH_SIZE = 100
 EPOCHS = 20
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=seed)
+SHAPE = np.shape(X[0])
+seed = 42
+n_iter = 20
+BATCH_SIZE = 128
+EPOCHS = 20
 
 
 results = []
