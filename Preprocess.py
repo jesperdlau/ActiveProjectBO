@@ -39,6 +39,9 @@ def process(img):
     img_gray= np.expand_dims(img_gray, axis=2)
     return img_rgb, img_gray
 
+def simple_process(img):
+    return color.rgb2gray(img)
+
 
 # Main loop
 for i, filename in enumerate(os.listdir(folder_path)):
@@ -47,17 +50,19 @@ for i, filename in enumerate(os.listdir(folder_path)):
         img = io.imread(file)
         img_list.append(img)
         label_list.append(int(filename[0]))
-        img_rgb, img_gray = process(img)
-        img_list_rgb.append(img_rgb)
+        img_gray = simple_process(img)
+        #img_list_rgb.append(img_rgb)
         img_list_gray.append(img_gray)
         print(i)
 
-io.imshow_collection([img_list[15], img_list_gray[15], img_list_rgb[15]])
+# io.imshow_collection([img_list[15], img_list_gray[15], img_list_rgb[15]])
+#io.imshow_collection([img_list[15], img_list_gray[15]], cmap="gray")
+io.imshow_collection(img_list[:9])
 plt.show()
 # print()
 
-np.save("image_data.npy",np.array(img_list))
-np.save("labels.npy",np.array(label_list))
-np.save("image_data_gray.npy", np.array(img_list_gray))
-np.save("image_data_rgb.npy", np.array(img_list_rgb))
+# np.save("image_data.npy",np.array(img_list))
+# np.save("labels.npy",np.array(label_list))
+# np.save("image_data_gray.npy", np.array(img_list_gray))
+# np.save("image_data_rgb.npy", np.array(img_list_rgb))
 
