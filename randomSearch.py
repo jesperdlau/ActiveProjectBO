@@ -6,18 +6,14 @@ import random
 from sklearn.model_selection import train_test_split
 
 # load data
+# X = np.load("image_data_gray.npy")
+# y = np.load("labels.npy")
 X = np.load("image_data_gray.npy")
 y = np.load("labels.npy")
-X = np.load("image_data_gray.npy")[:200]
-y = np.load("labels.npy")[:200]
 
 seed = 42
-n_iter = 10
-SHAPE = np.shape(X[0])
-BATCH_SIZE = 100
-EPOCHS = 20
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=seed)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.90, random_state=seed)
 SHAPE = np.shape(X[0])
 seed = 42
 n_iter = 20
@@ -38,7 +34,7 @@ for i in tqdm(range(n_iter)):
     loss, acc = model.evaluate(X_test,y_test)
     results.append(np.array([i,acc,dropRate1,dropRate2]))
 
-np.save("randomSearchResults.npy", np.array(results))
+np.save("randomSearchResults250.npy", np.array(results))
 
 for iteration in results:
     print(iteration)

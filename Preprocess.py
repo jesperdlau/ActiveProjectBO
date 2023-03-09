@@ -57,7 +57,7 @@ for i, filename in enumerate(os.listdir(folder_path)):
 
 # io.imshow_collection([img_list[15], img_list_gray[15], img_list_rgb[15]])
 #io.imshow_collection([img_list[15], img_list_gray[15]], cmap="gray")
-io.imshow_collection(img_list[:9])
+io.imshow_collection(img_list[12:21])
 plt.show()
 # print()
 
